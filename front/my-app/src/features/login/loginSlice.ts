@@ -96,8 +96,8 @@ export const loginSlice = createSlice({
         const tmp: any = jwt_decode(action.payload.access)
         state.userLogged = tmp.username
         state.userID=tmp.user_id
-
         { tmp.username == "admin" ? state.isAdmin = true : state.isAdmin = false }
+
       })
 
       .addCase(logoutAsync.fulfilled, (state, action) => {

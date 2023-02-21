@@ -12,7 +12,7 @@ const Layout = () => {
     const token = JSON.parse(localStorage.getItem('token') as string);
     console.log(token)
    
-    const accessToken = token.access
+    const accessToken = token?.access
     useEffect(() => {
      console.log(" mama")
      if (accessToken){
