@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
-from django.http import JsonResponse
 from django.http import JsonResponse, HttpResponse
 from .models import Product, Client   
 from .Serializer import ProductSerializer
@@ -17,7 +16,25 @@ from rest_framework import status, generics
 from rest_framework_simplejwt.tokens import RefreshToken
 
 
-# Create your views here.
+
+##### Create your views here. #####
+
+#### gets all products ####
+@api_view(['GET', 'POST', 'DELETE', 'PUT', 'PATCH'])
+def myProducts(req):
+    if req.method == 'GET':
+        all_products = ProductSerializer(Product.objects.all(), many=True).data
+        return JsonResponse(all_products, safe=False)
+    if req.method == 'POST':
+        Product.objects.create(
+            name=req.data["name"], description=req.data["description"], price=req.data["price"])
+        return Response("post...")
+    if req.method == 'DELETE':
+        Product.objects.delete(id=req.data["id"])
+        return Response("delted")
+
+####  gets all products ####
+
 ####### login #######
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
@@ -26,7 +43,10 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         # Add custom claims
         token['username'] = user.username
         # ...
-        return token        
+        return token 
+
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer       
 ####### login #######
 
 ###### logout #######
@@ -44,7 +64,7 @@ class RefreshTokenView(generics.GenericAPIView):
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        return Response(serializer.validated_data, status=status.HTTP_200_OK)
+        return JsonResponse(serializer.validated_data, status=status.HTTP_200_OK)
 ###### refresh token ######
 
 
@@ -53,13 +73,12 @@ class RefreshTokenView(generics.GenericAPIView):
 def register(request):
     user = User.objects.create_user(
                 username=request.data['username'],
-                email=request.data['email'],
-                password=request.data['password']
+                password=request.data['password'],
             )
     user.is_active = True
     user.is_staff = True
     user.save()
-    return JsonResponse("new user motherfuc*er", safe=False)
+    return Response("new user motherfuc*er")
 ###### register ######
 
 
@@ -70,32 +89,28 @@ def clients(request):
     tempAr=[]
     for cli in Client.objects.all():
         tempAr.append({"age":cli.age,"name":cli.cName,"id":cli.id})
-    return JsonResponse(tempAr,safe=False)
+    return JsonResponse(tempAr,safe = False)
 ########### client #############
 
 
-#################### authenticate ################
-class MyTokenObtainPairView(TokenObtainPairView):
-    serializer_class = MyTokenObtainPairSerializer
     
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 
-############################ authenticate ################################
 
 ############################ pages #############################
 def index(req):
-    return JsonResponse('hello', safe=False)
+    return JsonResponse('hello',safe = False)
 
 def about(req):
-    return JsonResponse('about', safe=False)    
+    return JsonResponse('about', safe = False)    
 
 def myProducts(req):
     all_products = ProductSerializer(Product.objects.all(), many=True).data
-    return JsonResponse(all_products, safe=False)
+    return JsonResponse(all_products,safe = False)
 
 def index(req):
-    return JsonResponse('hello', safe=False)
+    return JsonResponse('hello',safe = False)
 ############################ pages #############################
 
 ############################ image #############################
@@ -110,7 +125,7 @@ def getImages(request):
                 "completed":False,
                "image":str( img.image)
                 }) #append row by to row to res list
-    return Response(res) #return array as json response
+    return JsonResponse(res) #return array as json response
 
 
 # upload image method (with serialize)
@@ -121,9 +136,9 @@ class APIViews(APIView):
        
         if api_serializer.is_valid():
             api_serializer.save()
-            return Response(api_serializer.data,status=status.HTTP_201_CREATED)
+            return JsonResponse(api_serializer.data,status=status.HTTP_201_CREATED)
         else:
             print('error',api_serializer.errors)
-            return Response(api_serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+            return JsonResponse(api_serializer.errors,status=status.HTTP_400_BAD_REQUEST)
 
 ############### image upload / display ################

@@ -1,0 +1,55 @@
+.navigator {
+    display: flex;
+    justify-content: space-around;
+    background-color: #0071dc;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.navBarLink {
+    color: white;
+    text-decoration: none;
+padding: 10px;
+}
+
+.navBarLink:hover {
+    background-color: #4cadfe;
+    border-radius: 13px;
+    border-color: #619b91;
+}
+
+
+.dropDownBtn {
+    position: relative;
+    display: inline-block;
+}
+
+
+.dropDownBtn:hover .dropContent {
+    display: block;
+    padding: 40px;
+}
+
+.dropContent {
+    display: none;
+    background-color: #031f42;
+    position: absolute;
+    text-align: center;
+    padding: 25px;
+    margin: auto;
+    margin-top: 10px;
+    z-index: 1;
+
+}
+
+.mainLogo {
+    font-weight: bolder;
+    font-size: larger;
+    text-decoration: underline;
+}
+
+.searchBar {
+    border-radius: 10px;
+
+}
+

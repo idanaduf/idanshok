@@ -11,15 +11,17 @@ class Product(models.Model):
  
     def __str__(self):
            return self.desc
-
+########## clients ##########
 class Client(models.Model):
     id = models.BigAutoField(primary_key=True)
     cName = models.CharField(max_length=20)
     age = models.FloatField()
 
 
+
     def __str__(self):
         return self.cName
+########## clients ##########
 
 class Product(models.Model):
     user =models.ForeignKey(User,on_delete=models.SET_NULL,null=True)
