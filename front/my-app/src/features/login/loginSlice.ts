@@ -70,7 +70,7 @@ export const loginSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(loginAsync.fulfilled, (state, action) => {
-        console.log("new",action)
+        // console.log("new",action)
         // localStorage.setItem('token', action.payload.access)
         console.log(action.payload)
         const tmp: any = jwt_decode(action.payload.access)

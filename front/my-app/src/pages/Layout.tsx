@@ -14,9 +14,7 @@ const Layout = () => {
    
     const accessToken = token?.access
     useEffect(() => {
-     console.log(" mama")
      if (accessToken){
-       console.log(" dddd ")
        dispatch(islooged())
    
      }
@@ -31,11 +29,6 @@ const Layout = () => {
     console.log (logged)
 
     const currentUser: string = useSelector(selectUser)
-    //  refreshes users tokens - need to be fixed - add if condition so that only if token is about to expire so it will run 
-    // useEffect(() => {
-    //     const tmp: any = localStorage.getItem('refresh')
-    //     { tmp && dispatch(refreshAsync(tmp)) }
-    // }, [])
 
     return (
         <>
@@ -71,5 +64,7 @@ const Layout = () => {
         </>
     )
 };
+
+
 
 export default Layout;
